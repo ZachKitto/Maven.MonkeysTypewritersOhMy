@@ -1,5 +1,7 @@
 package io.zipcoder;
 
+import java.util.stream.Stream;
+
 public class MonkeyTypewriter {
     public static void main(String[] args) {
         String introduction = "It was the best of times,\n" +
@@ -23,6 +25,27 @@ public class MonkeyTypewriter {
         // Do all of the Monkey / Thread building here
         // For each Copier(one safe and one unsafe), create and start 5 monkeys copying the introduction to
         // A Tale Of Two Cities.
+        UnsafeCopier unsafeMonkey1 = new UnsafeCopier(introduction);
+        UnsafeCopier unsafeMonkey2 = new UnsafeCopier(introduction);
+        UnsafeCopier unsafeMonkey3 = new UnsafeCopier(introduction);
+        UnsafeCopier unsafeMonkey4 = new UnsafeCopier(introduction);
+        UnsafeCopier unsafeMonkey5 = new UnsafeCopier(introduction);
+        new Thread(unsafeMonkey1).start();
+        new Thread(unsafeMonkey2).start();
+        new Thread(unsafeMonkey3).start();
+        new Thread(unsafeMonkey4).start();
+        new Thread(unsafeMonkey5).start();
+
+        SafeCopier safeMonkey1 = new SafeCopier(introduction);
+        SafeCopier safeMonkey2 = new SafeCopier(introduction);
+        SafeCopier safeMonkey3 = new SafeCopier(introduction);
+        SafeCopier safeMonkey4 = new SafeCopier(introduction);
+        SafeCopier safeMonkey5 = new SafeCopier(introduction);
+        new Thread(safeMonkey1).start();
+        new Thread(safeMonkey2).start();
+        new Thread(safeMonkey3).start();
+        new Thread(safeMonkey4).start();
+        new Thread(safeMonkey5).start();
 
 
         // This wait is here because main is still a thread and we want the main method to print the finished copies
@@ -34,5 +57,10 @@ public class MonkeyTypewriter {
         }
 
         // Print out the copied versions here.
+        Stream.of(unsafeMonkey1, unsafeMonkey2, unsafeMonkey3, unsafeMonkey4, unsafeMonkey5)
+                .forEach(System.out::println);
+
+        Stream.of(safeMonkey1, safeMonkey2, safeMonkey3, safeMonkey4, safeMonkey5)
+                .forEach(System.out::println);
     }
 }
